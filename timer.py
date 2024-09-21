@@ -1,6 +1,6 @@
 import sys
-from PyQt6.QtWidgets import QWidget, QApplication
-from PyQt6.QtCore import QTimer
+from PyQt6.QtWidgets import QWidget, QApplication, QMessageBox
+from PyQt6.QtCore import QTimer, Qt
 
 from ui.timer_ui import TimerUi
 
