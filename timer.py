@@ -7,7 +7,7 @@ from ui.timer_ui import TimerUi
 class Timer(QWidget):
     def __init__(self):
         super().__init__()
-        self.resize(300,300)
+        self.setFixedSize(720,480)
 
         self.ui = TimerUi()
         self.ui.setup(self)
