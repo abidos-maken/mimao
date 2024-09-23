@@ -11,6 +11,14 @@ class TimerUi(object):
                                border-radius: 15px;
                                font: 95px BIG JOHN;
                            }
+                           QLabel[group="collon_text"] {
+                               font: 80px BIG JOHN;
+                               color: white;
+                           }
+                           QLabel[group="decoration_text"] {
+                               font: 35px BIG JOHN;
+                               color: white;
+                           }
                            """)
 
         self.image_form = QFrame(form)
@@ -46,9 +54,27 @@ class TimerUi(object):
         self.remain_seconds_ten.setGeometry(385,130,110,130)
         self.remain_seconds_one.setGeometry(510,130,110,130)
 
-    def __create_shadow(self, form):
+        # NOTE :: Decoration texts
+        self.collon_text = QLabel(":", form)
+        self.collon_text.setProperty("group", "collon_text")
+        self.collon_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.collon_text.setGraphicsEffect(self.__create_shadow(form,1,1))
+        self.min_text = QLabel("min", form)
+        self.min_text.setProperty("group", "decoration_text")
+        self.min_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.min_text.setGraphicsEffect(self.__create_shadow(form,1,1))
+        self.sec_text = QLabel("sec", form)
+        self.sec_text.setProperty("group", "decoration_text")
+        self.sec_text.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.sec_text.setGraphicsEffect(self.__create_shadow(form,1,1))
+
+        self.collon_text.setGeometry(350,120,20,110)
+        self.min_text.setGeometry(155, 70, 120, 50)
+        self.sec_text.setGeometry(445, 70, 120, 50)
+
+    def __create_shadow(self, form, offset_x = 3, offset_y = 3):
         shadow = QGraphicsDropShadowEffect(form)
         shadow.setBlurRadius(10)
-        shadow.setOffset(3,3)
+        shadow.setOffset(offset_x,offset_y)
         shadow.setColor(QColor(0,0,0,160))
         return shadow
