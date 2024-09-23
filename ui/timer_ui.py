@@ -6,22 +6,7 @@ class TimerUi(object):
     def setup(self, form:QWidget):
         form.setObjectName("Timer UI")
         form.setStyleSheet("""
-                           QLabel#remain_minutes_ten {
-                               background-color: white;
-                               border-radius: 15px;
-                               font: 95px BIG JOHN;
-                           }
-                           QLabel#remain_minutes_one {
-                               background-color: white;
-                               border-radius: 15px;
-                               font: 95px BIG JOHN;
-                           }
-                           QLabel#remain_seconds_ten {
-                               background-color: white;
-                               border-radius: 15px;
-                               font: 95px BIG JOHN;
-                           }
-                           QLabel#remain_seconds_one {
+                           QLabel[group="timer_text"] {
                                background-color: white;
                                border-radius: 15px;
                                font: 95px BIG JOHN;
@@ -40,19 +25,19 @@ class TimerUi(object):
                            """)
 
         self.remain_minutes_ten = QLabel("0", form)
-        self.remain_minutes_ten.setObjectName("remain_minutes_ten")
+        self.remain_minutes_ten.setProperty("group", "timer_text")
         self.remain_minutes_ten.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.remain_minutes_ten.setGraphicsEffect(self.__create_shadow(form))
         self.remain_minutes_one = QLabel("0", form)
-        self.remain_minutes_one.setObjectName("remain_minutes_one")
+        self.remain_minutes_one.setProperty("group", "timer_text")
         self.remain_minutes_one.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.remain_minutes_one.setGraphicsEffect(self.__create_shadow(form))
         self.remain_seconds_ten = QLabel("0", form)
-        self.remain_seconds_ten.setObjectName("remain_seconds_ten")
+        self.remain_seconds_ten.setProperty("group", "timer_text")
         self.remain_seconds_ten.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.remain_seconds_ten.setGraphicsEffect(self.__create_shadow(form))
         self.remain_seconds_one = QLabel("0", form)
-        self.remain_seconds_one.setObjectName("remain_seconds_one")
+        self.remain_seconds_one.setProperty("group", "timer_text")
         self.remain_seconds_one.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.remain_seconds_one.setGraphicsEffect(self.__create_shadow(form))
 
