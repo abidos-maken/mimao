@@ -14,13 +14,27 @@ class Timer(QWidget):
         self.ui = TimerUi()
         self.ui.setup(self)
 
-        self.remaining_time = 300
+        self.__timer_running_status = False
+        self.ui.active_btn.clicked.connect(self.__timer_status_set)
+
+        self.remaining_time = SET_TIMER
         self.__timer_text_set()
 
         self.timer = QTimer()
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.__timecount_cb)
-        self.timer.start()
+
+    def __timer_status_set(self):
+        if self.__timer_running_status:
+            self.timer.stop()
+            self.__timer_running_status = False
+            self.ui.active_btn.setText("start")
+            self.remaining_time = SET_TIMER
+            self.__timer_text_set()
+        else:
+            self.__timer_running_status = True
+            self.ui.active_btn.setText("stop")
+            self.timer.start()
 
     def __timer_text_set(self):
         minutes = str(int(self.remaining_time / 60))
@@ -41,10 +55,10 @@ class Timer(QWidget):
         msg.setIcon(QMessageBox.Icon.Information)
         msg.setWindowFlag(Qt.WindowType.WindowStaysOnTopHint)
         msg.exec()
+        self.__timer_status_set()
 
     def __timecount_cb(self):
         if self.remaining_time == 0:
-            self.timer.stop()
             self.__timeout_event()
         else:
             self.remaining_time -= 1

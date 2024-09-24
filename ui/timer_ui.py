@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QColor
-from PyQt6.QtWidgets import QWidget, QLabel, QFrame, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QWidget, QLabel, QFrame, QGraphicsDropShadowEffect, QPushButton
 from PyQt6.QtCore import Qt
 
 class TimerUi(object):
@@ -71,6 +71,12 @@ class TimerUi(object):
         self.collon_text.setGeometry(350,120,20,110)
         self.min_text.setGeometry(155, 70, 120, 50)
         self.sec_text.setGeometry(445, 70, 120, 50)
+
+        # NOTE :: start button
+        self.active_btn = QPushButton("start", form)
+        self.active_btn.setGraphicsEffect(self.__create_shadow(form))
+
+        self.active_btn.setGeometry(260, 350, 200, 40)
 
     def __create_shadow(self, form, offset_x = 3, offset_y = 3):
         shadow = QGraphicsDropShadowEffect(form)
