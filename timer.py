@@ -4,6 +4,8 @@ from PyQt6.QtCore import QTimer, Qt
 
 from ui.timer_ui import TimerUi
 
+SET_TIMER = 300
+
 class Timer(QWidget):
     def __init__(self):
         super().__init__()
