@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 from PyQt6.QtGui import QKeyEvent
 from PyQt6.QtWidgets import QWidget, QApplication, QMessageBox
 from PyQt6.QtCore import QTimer, Qt
@@ -21,7 +22,8 @@ class Timer(QWidget):
         self.remaining_time = SET_TIMER
         self.__timer_text_set()
 
-        self.__key_input_set_time_arr = [0 for i in range(4)]
+        self.__timer_labels_list = [self.ui.remain_minutes_ten, self.ui.remain_minutes_one, self.ui.remain_seconds_ten, self.ui.remain_seconds_one]
+        self.__key_input_set_time_arr = deque([])
         self.__key_input_count = 0
 
         self.timer = QTimer()
@@ -68,17 +70,26 @@ class Timer(QWidget):
             self.remaining_time -= 1
             self.__timer_text_set()
 
+    def __key_timer_setting(self):
+        for i in range(4):
+            if i < self.__key_input_count :
+                self.__timer_labels_list[3-i].setText(str(self.__key_input_set_time_arr[i]))
+            else:
+                self.__timer_labels_list[3-i].setText(str(0))
+
     def keyPressEvent(self, e: QKeyEvent | None):
         if not self.__timer_running_status:
-            if e.key() > Qt.Key.Key_0 and e.key() < Qt.Key.Key_9:
+            if e.key() >= Qt.Key.Key_0 and e.key() <= Qt.Key.Key_9:
                 if self.__key_input_count < 4:
-                    self.__key_input_set_time_arr[self.__key_input_count] = e.key() - Qt.Key.Key_0
+                    self.__key_input_set_time_arr.appendleft(e.key() - Qt.Key.Key_0)
                     self.__key_input_count += 1
             elif e.key() == Qt.Key.Key_Backspace:
                 if self.__key_input_count > 0:
                     self.__key_input_count -= 1
-                    self.__key_input_set_time_arr[self.__key_input_count] = 0
-        print(self.__key_input_set_time_arr)
+                    self.__key_input_set_time_arr.popleft()
+            else:
+                return
+            self.__key_timer_setting()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv) 
