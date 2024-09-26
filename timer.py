@@ -1,4 +1,5 @@
 import sys
+from PyQt6.QtGui import QKeyEvent
 from PyQt6.QtWidgets import QWidget, QApplication, QMessageBox
 from PyQt6.QtCore import QTimer, Qt
 
@@ -19,6 +20,9 @@ class Timer(QWidget):
 
         self.remaining_time = SET_TIMER
         self.__timer_text_set()
+
+        self.__key_input_set_time_arr = [0 for i in range(4)]
+        self.__key_input_count = 0
 
         self.timer = QTimer()
         self.timer.setInterval(1000)
@@ -63,6 +67,18 @@ class Timer(QWidget):
         else:
             self.remaining_time -= 1
             self.__timer_text_set()
+
+    def keyPressEvent(self, e: QKeyEvent | None):
+        if not self.__timer_running_status:
+            if e.key() > Qt.Key.Key_0 and e.key() < Qt.Key.Key_9:
+                if self.__key_input_count < 4:
+                    self.__key_input_set_time_arr[self.__key_input_count] = e.key() - Qt.Key.Key_0
+                    self.__key_input_count += 1
+            elif e.key() == Qt.Key.Key_Backspace:
+                if self.__key_input_count > 0:
+                    self.__key_input_count -= 1
+                    self.__key_input_set_time_arr[self.__key_input_count] = 0
+        print(self.__key_input_set_time_arr)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv) 
