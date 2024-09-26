@@ -19,6 +19,12 @@ class TimerUi(object):
                                font: 35px BIG JOHN;
                                color: white;
                            }
+                           QPushButton {
+                               font : 23px BIG JOHN;
+                               color: white;
+                               background-color : rgba(255,170,0,225);
+	                           border-radius: 20px;
+                           }
                            """)
 
         self.image_form = QFrame(form)
@@ -74,9 +80,9 @@ class TimerUi(object):
 
         # NOTE :: start button
         self.active_btn = QPushButton("start", form)
-        self.active_btn.setGraphicsEffect(self.__create_shadow(form))
+        self.active_btn.setGraphicsEffect(self.__create_shadow(form, 2,2))
 
-        self.active_btn.setGeometry(260, 350, 200, 40)
+        self.active_btn.setGeometry(250, 340, 210, 50)
 
     def __create_shadow(self, form, offset_x = 3, offset_y = 3):
         shadow = QGraphicsDropShadowEffect(form)
