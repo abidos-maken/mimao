@@ -19,8 +19,9 @@ class Timer(QWidget):
         self.__timer_running_status = False
         self.ui.active_btn.clicked.connect(self.__timer_status_set)
 
-        self.remaining_time = SET_TIMER
-        self.__timer_text_set()
+        self.origin_time = 0
+        self.remaining_time = 0
+        self.__timer_text_set(self.origin_time)
 
         self.__timer_labels_list = [self.ui.remain_minutes_ten, self.ui.remain_minutes_one, self.ui.remain_seconds_ten, self.ui.remain_seconds_one]
         self.__key_input_set_time_arr = deque([])
@@ -35,18 +36,35 @@ class Timer(QWidget):
             self.timer.stop()
             self.__timer_running_status = False
             self.ui.active_btn.setText("start")
-            self.remaining_time = SET_TIMER
-            self.__timer_text_set()
+            self.remaining_time = 0
+            self.__timer_text_set(self.origin_time)
         else:
+            if int(self.ui.remain_seconds_ten.text()) > 5 :
+                self.ui.remain_seconds_ten.setText("5")
+                if self.__key_input_count == 2:
+                    index = 0
+                elif self.__key_input_count == 3:
+                    index = 1
+                else:
+                    index = 2
+                self.__key_input_set_time_arr[index] = 5
+
+            self.remaining_time = 0
+            self.remaining_time += int(self.__timer_labels_list[0].text()) * 600
+            self.remaining_time += int(self.__timer_labels_list[1].text()) * 60
+            self.remaining_time += int(self.__timer_labels_list[2].text()) * 10
+            self.remaining_time += int(self.__timer_labels_list[3].text())
+            self.origin_time = self.remaining_time
+
             self.__timer_running_status = True
             self.ui.active_btn.setText("stop")
             self.timer.start()
 
-    def __timer_text_set(self):
-        minutes = str(int(self.remaining_time / 60))
+    def __timer_text_set(self, time):
+        minutes = str(int(time / 60))
         if len(minutes) < 2:
             minutes = "0" + minutes
-        seconds = str(self.remaining_time % 60)
+        seconds = str(time % 60)
         if len(seconds) < 2:
             seconds = "0" + seconds
         self.ui.remain_minutes_ten.setText(minutes[0])
@@ -68,7 +86,7 @@ class Timer(QWidget):
             self.__timeout_event()
         else:
             self.remaining_time -= 1
-            self.__timer_text_set()
+            self.__timer_text_set(self.remaining_time)
 
     def __key_timer_setting(self):
         for i in range(4):
