@@ -96,7 +96,9 @@ class Timer(QWidget):
     def keyPressEvent(self, e: QKeyEvent | None):
         if not self.__timer_running_status:
             if e.key() >= Qt.Key.Key_0 and e.key() <= Qt.Key.Key_9:
-                if self.__key_input_count < 4:
+                if self.__key_input_count == 0 and e.key() == Qt.Key.Key_0:
+                    return
+                elif self.__key_input_count < 4:
                     self.__key_input_set_time_arr.appendleft(e.key() - Qt.Key.Key_0)
                     self.__key_input_count += 1
             elif e.key() == Qt.Key.Key_Backspace:
